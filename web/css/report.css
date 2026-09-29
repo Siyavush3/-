@@ -1,0 +1,33 @@
+/* Отчёт о практическом занятии: экран и печать (PDF — «Печать» → «Сохранить как PDF»). */
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Roboto, "Segoe UI", "Helvetica Neue", Arial, sans-serif; font-size: 13px; color: #1d2327; background: #e9edf0; }
+.bar { position: sticky; top: 0; z-index: 2; display: flex; gap: 8px; align-items: center; padding: 10px 18px; background: #15191c; }
+.bar .spacer { flex: 1; }
+button { font: inherit; height: 32px; padding: 0 14px; border-radius: 3px; border: 1px solid #b9c3c9; background: #fff; cursor: pointer; }
+button.primary { background: #157dbd; border-color: #157dbd; color: #fff; }
+.sheet { max-width: 1040px; margin: 18px auto; background: #fff; padding: 28px 34px; box-shadow: 0 1px 4px rgba(0, 0, 0, .12); }
+h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; }
+h2 { font-size: 15px; font-weight: 600; margin: 22px 0 8px; border-bottom: 1px solid #dde3e7; padding-bottom: 4px; }
+h3 { font-size: 14px; font-weight: 600; margin: 16px 0 6px; }
+.muted { color: #5d6a72; }
+.meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 4px 20px; margin: 10px 0; }
+.meta div span { color: #5d6a72; }
+table { border-collapse: collapse; width: 100%; margin: 6px 0; }
+th, td { border: 1px solid #dde3e7; padding: 5px 7px; text-align: left; vertical-align: top; }
+th { background: #eef1f3; font-weight: 500; font-size: 12px; }
+td.n, th.n { text-align: right; white-space: nowrap; }
+td.bad { color: #b3261e; font-weight: 600; }
+.acts { margin: 0; padding-left: 16px; }
+.acts li { margin: 1px 0; }
+.small { font-size: 12px; }
+.sign { margin-top: 30px; display: flex; gap: 60px; }
+.sign div { border-top: 1px solid #1d2327; padding-top: 4px; min-width: 240px; color: #5d6a72; font-size: 12px; }
+.student { break-inside: avoid-page; }
+@media print {
+  body { background: #fff; }
+  .no-print { display: none !important; }
+  .sheet { box-shadow: none; margin: 0; max-width: none; padding: 0; }
+  @page { size: A4 landscape; margin: 12mm; }
+  .student { break-before: page; }
+  .student:first-of-type { break-before: auto; }
+}

@@ -1,0 +1,24 @@
+# Служба сервера тренажёра АРМ-112. Устанавливается deploy/linux/install.sh (@DIR@ и @ARGS@ подставляются).
+[Unit]
+Description=ARM-112 trainer server
+After=network-online.target postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=arm112
+Group=arm112
+WorkingDirectory=@DIR@
+EnvironmentFile=-/etc/arm112.env
+ExecStart=@DIR@/.venv/bin/python @DIR@/server/run.py @ARGS@
+Restart=always
+RestartSec=5
+# защита: служба пишет только в свои данные
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=@DIR@/var @DIR@/data/scenarios
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

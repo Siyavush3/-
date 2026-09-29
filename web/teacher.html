@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Тренажёр ДДС · Преподаватель</title>
+<link rel="stylesheet" href="css/teacher.css">
+<link rel="stylesheet" href="css/insight.css">
+</head>
+<body>
+<header class="top">
+  <span class="brand">Тренажёр ДДС</span>
+  <nav class="tabs" id="tabs">
+    <button type="button" class="on" data-view="lessons">Занятия</button>
+    <button type="button" data-view="scenarios">Сценарии</button>
+    <button type="button" data-view="groups">Группы и задания</button>
+    <button type="button" data-view="analytics">Аналитика</button>
+    <button type="button" data-view="materials">Материалы</button>
+  </nav>
+  <span class="who">Преподаватель: <b id="who"></b></span>
+  <span class="spacer"></span>
+  <span class="hint" id="hint"></span>
+  <button type="button" class="ghost" id="exit">Выйти</button>
+</header>
+
+<div class="layout tview" id="view-lessons">
+  <aside class="side">
+    <section class="panel">
+      <h2>Новое занятие</h2>
+      <label class="fld">Сценарий
+        <select id="pack"></select>
+      </label>
+      <div class="pack-info" id="pack-info"></div>
+      <label class="fld" id="tempo-box">Темп
+        <select id="tempo">
+          <option value="1">реальное время</option>
+          <option value="0.5">ускорение ×2</option>
+          <option value="0.2">ускорение ×5</option>
+          <option value="0.1">ускорение ×10 (демонстрация)</option>
+          <option value="2">замедление ×2 (знакомство с АРМ)</option>
+          <option value="3">замедление ×3 (первое знакомство)</option>
+        </select>
+      </label>
+      <div id="cards-opts" hidden>
+        <div class="fld">Категории событий <span class="hint-s">(ничего не выбрано — все)</span>
+          <div class="groups" id="groups"></div>
+        </div>
+        <div class="row2">
+          <label class="fld">Вызовов на обучающегося<input type="number" id="count" min="1" max="50" value="8"></label>
+          <label class="fld">Норматив карточки, с<input type="number" id="norm" min="20" max="900" value="80"></label>
+        </div>
+        <label class="fld">Разбор ошибок
+          <select id="feedback">
+            <option value="immediate">сразу после каждой карточки (обучение)</option>
+            <option value="end">только в итоге занятия (аттестация)</option>
+          </select>
+        </label>
+      </div>
+      <div id="dds-opts" hidden>
+        <label class="fld">Источник карточек
+          <select id="source">
+            <option value="pack">карточки сценария</option>
+            <option value="student">карточки, заполненные обучающимися (режим «карточки»)</option>
+            <option value="mixed">сценарий и карточки обучающихся вперемешку</option>
+          </select>
+        </label>
+        <label class="fld" id="scount-box" hidden>Карточек обучающихся, не больше<input type="number" id="scount" min="1" max="50" value="8"></label>
+      </div>
+      <label class="fld">Для группы
+        <select id="lgroup"><option value="">любые обучающиеся</option></select>
+      </label>
+      <details class="crit">
+        <summary>Критерии успешности и нормативы</summary>
+        <div class="row2">
+          <label class="fld">Порог зачёта, баллов<input type="number" id="pass" min="0" max="100" value="70"></label>
+          <label class="fld">Допустимо замечаний<input type="number" id="maxerr" min="0" max="500" placeholder="без ограничения"></label>
+        </div>
+        <label class="fld" id="pnorm-box">Норматив первичного статуса ДДС, с<input type="number" id="pnorm" min="5" max="600" value="30"></label>
+        <label class="fld" id="anorm-box" hidden>Норматив принятия вызова, с<input type="number" id="anorm" min="3" max="120" value="15"></label>
+        <label class="chk"><input type="checkbox" id="textcheck" checked> учитывать орфографию и оформление текста</label>
+      </details>
+      <button type="button" class="primary" id="create">Создать занятие</button>
+      <p class="err" id="create-err"></p>
+    </section>
+    <section class="panel">
+      <h2>Мои занятия</h2>
+      <div id="lessons" class="lessons"></div>
+    </section>
+  </aside>
+
+  <main class="main" id="main">
+    <div class="empty" id="empty">Создайте занятие или выберите его в списке слева.</div>
+    <div id="lesson" hidden>
+      <div class="lesson-head">
+        <div>
+          <h1 id="l-title"></h1>
+          <div class="l-meta" id="l-meta"></div>
+        </div>
+        <div class="actions">
+          <button type="button" id="assign-all">Назначить роль всем</button>
+          <button type="button" class="primary" id="start">Начать занятие</button>
+          <button type="button" class="danger" id="finish">Завершить занятие</button>
+        </div>
+      </div>
+      <p class="err" id="l-err"></p>
+
+      <div class="stats" id="stats"></div>
+
+      <section class="panel wide">
+        <h2>Участники <span class="conn" id="conn"></span></h2>
+        <table class="grid">
+          <thead id="thead"></thead>
+          <tbody id="rows"></tbody>
+        </table>
+        <p class="note" id="join-note"></p>
+      </section>
+
+      <section class="panel wide" id="results-box" hidden>
+        <h2>Итоги по категориям памятки <span class="spacer"></span><button type="button" id="open-report">Отчёт о занятии (печать, Excel, CSV)</button></h2>
+        <div id="results"></div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<div class="layout tview" id="view-scenarios" hidden>
+  <aside class="side">
+    <section class="panel">
+      <h2>Сгенерировать сценарий</h2>
+      <label class="fld">Режим
+        <select id="g-mode">
+          <option value="card_actions">Действия с карточками — диспетчер ДДС</option>
+          <option value="cards">Карточки — оператор Службы 112</option>
+        </select>
+      </label>
+      <label class="fld" id="g-district-box">Район — роль обучающихся: ДДС района
+        <select id="g-district"></select>
+      </label>
+      <div class="fld">Категории событий <span class="hint-s">(ничего не выбрано — все)</span>
+        <div class="groups" id="g-groups"></div>
+      </div>
+      <div class="row2">
+        <label class="fld">Сложность<select id="g-level"></select></label>
+        <label class="fld">Карточек<input type="number" id="g-count" min="3" max="30" value="10"></label>
+      </div>
+      <p class="pack-info" id="g-help"></p>
+      <button type="button" class="primary" id="g-go">Сгенерировать</button>
+      <p class="err" id="g-err"></p>
+      <div class="import"><span class="hint-s">или загрузить сценарий из файла JSON (черновиком):</span>
+        <input type="file" id="g-import" accept=".json,application/json"></div>
+    </section>
+    <section class="panel">
+      <h2>Сценарии</h2>
+      <div id="sc-list" class="lessons"></div>
+    </section>
+  </aside>
+
+  <main class="main">
+    <div class="empty" id="sc-empty">Сгенерируйте сценарий или выберите его в списке.<br>
+      Черновик можно проверить, исправить по комментарию и утвердить целиком или частично —<br>
+      утверждённый сценарий появится в списке сценариев для занятий.</div>
+    <div id="sc" hidden>
+      <div class="lesson-head">
+        <div class="sc-head">
+          <input class="sc-title" id="sc-title" maxlength="200" aria-label="Название сценария">
+          <div class="l-meta" id="sc-meta"></div>
+        </div>
+        <div class="actions">
+          <button type="button" id="sc-copy">Копия в черновик</button>
+          <button type="button" class="danger" id="sc-archive">В архив</button>
+          <button type="button" class="primary" id="sc-approve">Утвердить отмеченные</button>
+        </div>
+      </div>
+      <p class="err" id="sc-err"></p>
+      <p class="sc-note" id="sc-note" hidden></p>
+      <details class="panel wide sc-ref" id="sc-ref"><summary>Справка службы — её видит обучающийся</summary><div id="sc-ref-body"></div></details>
+      <div id="sc-items"></div>
+    </div>
+  </main>
+</div>
+
+<div class="layout tview" id="view-groups" hidden>
+  <aside class="side">
+    <section class="panel">
+      <h2>Группы</h2>
+      <div class="inline"><input id="g-new" maxlength="100" placeholder="Название новой группы"><button type="button" id="g-add">Создать</button></div>
+      <div id="g-list" class="lessons"></div>
+      <p class="err" id="g-err"></p>
+    </section>
+  </aside>
+  <main class="main">
+    <div class="empty" id="g-empty">Создайте группу или выберите её слева: состав группы, задания и их выполнение.</div>
+    <div id="g-view" hidden>
+      <div class="lesson-head"><div><h1 id="g-title"></h1><div class="l-meta" id="g-meta"></div></div>
+        <div class="actions"><button type="button" class="danger" id="g-archive">Убрать группу в архив</button></div></div>
+      <div class="grid-2">
+        <section class="panel">
+          <h2>Состав группы</h2>
+          <input id="g-filter" class="filter" placeholder="Поиск по фамилии или логину">
+          <div id="g-members" class="members"></div>
+          <button type="button" class="primary" id="g-save">Сохранить состав</button>
+        </section>
+        <section class="panel">
+          <h2>Назначить задание</h2>
+          <label class="fld">Сценарий<select id="t-pack"></select></label>
+          <label class="fld">Название задания<input id="t-title" maxlength="200" placeholder="по названию сценария"></label>
+          <div class="row2">
+            <label class="fld">Сложность<select id="t-level"><option value="">по сценарию</option><option value="1">базовая</option><option value="2">средняя</option><option value="3">высокая</option></select></label>
+            <label class="fld">Срок<input type="date" id="t-due"></label>
+          </div>
+          <div id="t-cards-opts" class="row2">
+            <label class="fld">Вызовов<input type="number" id="t-count" min="1" max="50" value="8"></label>
+            <label class="fld">Норматив карточки, с<input type="number" id="t-norm" min="20" max="900" value="80"></label>
+          </div>
+          <div class="row2">
+            <label class="fld">Порог зачёта<input type="number" id="t-pass" min="0" max="100" value="70"></label>
+            <label class="fld" id="t-pnorm-box">Норматив статуса ДДС, с<input type="number" id="t-pnorm" min="5" max="600" value="30"></label>
+          </div>
+          <label class="fld">Пояснение для обучающихся<input id="t-note" maxlength="2000" placeholder="например: обратите внимание на дома других УК"></label>
+          <button type="button" class="primary" id="t-add">Назначить группе</button>
+          <p class="err" id="t-err"></p>
+        </section>
+      </div>
+      <section class="panel wide">
+        <h2>Задания группы и выполнение</h2>
+        <div id="t-list"></div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<div class="page tview" id="view-analytics" hidden>
+  <div class="a-bar panel">
+    <label class="fld">Группа<select id="a-group"><option value="">все мои обучающиеся</option></select></label>
+    <label class="fld">Порог зачёта<input type="number" id="a-threshold" min="0" max="100" value="70"></label>
+    <button type="button" class="primary" id="a-load">Обновить</button>
+    <span class="spacer"></span>
+    <button type="button" id="a-xlsx">Excel</button>
+    <button type="button" id="a-csv">CSV</button>
+  </div>
+  <p class="err" id="a-err"></p>
+  <div id="a-body"></div>
+</div>
+
+<div class="page tview" id="view-materials" hidden>
+  <section class="panel">
+    <h2>Загрузить материал</h2>
+    <div class="up-row">
+      <input type="file" id="m-file">
+      <input id="m-title" maxlength="200" placeholder="Название (по имени файла)">
+      <select id="m-group"><option value="">для всех обучающихся</option></select>
+      <input id="m-desc" maxlength="2000" placeholder="Описание">
+      <button type="button" class="primary" id="m-upload">Загрузить</button>
+    </div>
+    <p class="note">PDF, DOCX, XLSX, PPTX, TXT, MD, CSV, JSON, XML, MP3, WAV, PNG, JPG, MP4 — до 50 МБ. Обучающиеся видят материалы своих групп и общие.</p>
+    <p class="err" id="m-err"></p>
+  </section>
+  <section class="panel wide"><h2>Материалы</h2><div id="m-list"></div></section>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/teacher.js"></script>
+<script src="js/scenarios.js"></script>
+<script src="js/teaching.js"></script>
+</body>
+</html>

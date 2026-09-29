@@ -1,0 +1,13 @@
+{
+  "note": "Демо-учётные записи для показа и разработки: создаются командой «python server/manage.py seed-demo» или ключом «run.py --demo» при пустой базе. В учебном классе учётные записи заводит администратор, демо-записи нужно удалить или заблокировать.",
+  "accounts": [
+    {"login": "admin", "name": "Смирнов Алексей (администратор)", "role": "admin", "password": "Admin-112"},
+    {"login": "teacher", "name": "Петрова Анна Викторовна", "role": "teacher", "password": "Teacher-112"},
+    {"login": "teacher2", "name": "Козлов Дмитрий Сергеевич", "role": "teacher", "password": "Teacher-112"},
+    {"login": "student1", "name": "Иванов Иван", "role": "student", "password": "Student-112"},
+    {"login": "student2", "name": "Соколова Мария", "role": "student", "password": "Student-112"},
+    {"login": "student3", "name": "Морозов Павел", "role": "student", "password": "Student-112"},
+    {"login": "student4", "name": "Волкова Елена", "role": "student", "password": "Student-112"},
+    {"login": "student5", "name": "Лебедев Артём", "role": "student", "password": "Student-112"}
+  ]
+}

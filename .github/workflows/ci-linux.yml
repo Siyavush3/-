@@ -1,0 +1,59 @@
+name: CI · Linux
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  core-ubuntu-2004:
+    # ТЗ: Ubuntu 20.04 и выше. Раннеров 20.04 у GitHub больше нет — собираем ядро в контейнере
+    # родными для 20.04 GCC 9 и CMake 3.16: так проверяется нижняя граница поддержки.
+    name: Ядро · Ubuntu 20.04 (GCC 9, CMake 3.16)
+    runs-on: ubuntu-latest
+    container: ubuntu:20.04
+    env:
+      DEBIAN_FRONTEND: noninteractive
+    steps:
+      - name: Инструменты
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends build-essential cmake python3 git ca-certificates
+      - uses: actions/checkout@v5
+      - name: Сборка
+        run: |
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+          cmake --build build --parallel
+      - name: Тесты ядра
+        run: cd build && ctest --output-on-failure
+
+  full:
+    name: Ядро + сервер · ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, ubuntu-24.04]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements/*.txt
+      - name: Зависимости
+        run: python -m pip install -r requirements/dev.txt
+      - name: Сборка ядра
+        run: |
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DPython3_EXECUTABLE="$(command -v python)"
+          cmake --build build --parallel
+      - name: Тесты ядра
+        run: ctest --test-dir build --output-on-failure
+      - name: Тесты Python — эталоны, сверка C с эталоном, лобби, API
+        env:
+          A112_REQUIRE_NATIVE: "1"
+        run: python -m pytest
+      - name: Сверка маршрутизации с кадрами стенда
+        run: python tools/routing_reference.py

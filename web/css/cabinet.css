@@ -1,0 +1,26 @@
+/* Кабинет обучающегося (узел 6). Основа — стили экрана преподавателя. */
+body { overflow: auto; }
+.cab { max-width: 1180px; margin: 0 auto; padding: 18px; }
+.cab h1 { font-size: 22px; font-weight: 500; margin: 6px 0 6px; }
+.cab .note { margin: 0 0 14px; }
+.live { display: flex; align-items: center; gap: 14px; background: #e2f3e9; border: 1px solid #b7dfc6; border-radius: 4px; padding: 10px 14px; margin-bottom: 14px; }
+.live span { flex: 1; }
+.task-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 12px; }
+.task { background: #fff; border: 1px solid #dde3e7; border-radius: 4px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
+.task h3 { margin: 0; font-size: 15px; }
+.task .m { font-size: 12px; color: #5d6a72; line-height: 18px; }
+.task .foot { display: flex; align-items: center; gap: 10px; margin-top: auto; padding-top: 6px; }
+.task .foot .spacer { flex: 1; }
+.task.done { border-left: 4px solid #1f7a4a; }
+.grid2 { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 18px; }
+.res-row { background: #fff; border: 1px solid #dde3e7; border-radius: 4px; padding: 10px 14px; margin-bottom: 8px; }
+.res-row .h { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.res-row .h b { font-size: 20px; }
+.res-row .h .t { flex: 1; min-width: 200px; }
+.res-row .h .t span { display: block; font-size: 12px; color: #5d6a72; }
+.res-row .ex { margin-top: 6px; font-size: 13px; background: #f6f0fa; border-radius: 3px; padding: 6px 10px; }
+.mat { display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid #dde3e7; border-radius: 4px; padding: 10px 14px; margin-bottom: 8px; }
+.mat .t { flex: 1; }
+.mat .t span { display: block; font-size: 12px; color: #5d6a72; }
+.empty-s { color: #5d6a72; padding: 20px 0; }
+@media (max-width: 900px) { .grid2 { grid-template-columns: 1fr; } .top .who { display: none; } }

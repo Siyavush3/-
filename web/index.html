@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Система 112 · Тренажёр · Вход</title>
+<link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+<!-- Раскладка и цвета — как у формы входа АРМ-112 (sdds_01, UI-SPEC.md §17); иллюстрация своя. -->
+<svg class="city" viewBox="0 0 1920 1000" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+  <g fill="#9cc6e0">
+    <rect x="40" y="380" width="150" height="620"/><rect x="600" y="300" width="120" height="700"/>
+    <rect x="1010" y="420" width="140" height="580"/><rect x="1480" y="520" width="110" height="480"/>
+  </g>
+  <g fill="#5d8db3">
+    <rect x="200" y="120" width="110" height="880"/><rect x="330" y="230" width="80" height="770"/>
+    <rect x="760" y="260" width="95" height="740"/><rect x="880" y="350" width="120" height="650"/>
+    <path d="M1180 1000V330a60 60 0 0 1 120 0v670z"/>
+  </g>
+  <g fill="#c7e1f0">
+    <rect x="120" y="560" width="120" height="440"/><rect x="450" y="470" width="110" height="530"/>
+    <rect x="690" y="520" width="90" height="480"/><rect x="1320" y="600" width="130" height="400"/>
+    <rect x="1600" y="640" width="120" height="360"/>
+  </g>
+  <g fill="#e9eef1">
+    <rect x="0" y="860" width="1920" height="140"/><rect x="150" y="800" width="260" height="200"/>
+    <rect x="980" y="780" width="300" height="220"/><rect x="1500" y="820" width="330" height="180"/>
+  </g>
+  <g fill="#cfd8de">
+    <rect x="170" y="830" width="220" height="10"/><rect x="170" y="860" width="220" height="10"/>
+    <rect x="1000" y="810" width="260" height="10"/><rect x="1000" y="840" width="260" height="10"/>
+    <rect x="1520" y="850" width="290" height="10"/><rect x="1520" y="880" width="290" height="10"/>
+  </g>
+</svg>
+
+<form class="login" id="login" autocomplete="off">
+  <div class="logo"><span class="n">112</span><span class="t">ВХОД В СИСТЕМУ</span></div>
+  <div id="step-login">
+    <label class="f"><span>логин:</span><input id="login-name" maxlength="40" required autofocus autocomplete="username"></label>
+    <label class="f"><span>пароль:</span><input id="password" type="password" maxlength="128" required autocomplete="current-password"></label>
+  </div>
+  <div id="step-change" hidden>
+    <p class="info">Временный пароль нужно сменить: не короче 8 символов, буквы и цифры.</p>
+    <label class="f"><span>новый пароль:</span><input id="new-password" type="password" maxlength="128" autocomplete="new-password"></label>
+    <label class="f"><span>ещё раз:</span><input id="new-password2" type="password" maxlength="128" autocomplete="new-password"></label>
+  </div>
+  <button type="submit" id="go">ВОЙТИ</button>
+  <p class="err" id="err"></p>
+  <div class="note">Учебный контур · тренажёр оператора ДДС</div>
+</form>
+
+<script src="js/api.js"></script>
+<script src="js/login.js"></script>
+</body>
+</html>

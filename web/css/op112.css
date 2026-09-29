@@ -1,0 +1,126 @@
+/* Карточка оператора Службы 112 (UI-SPEC.md §1–§6, §10–§12; снимки s112_01, s112_04).
+   Общие элементы (полоса тренажёра, полоса телефонии, окна) — из arm.css. */
+
+.op112 main { background: var(--page); }
+.wait { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.wait-box { max-width: 620px; text-align: center; font-size: 16px; line-height: 24px; color: #2f353a; background: #eef1f3; padding: 22px 28px; border-radius: 4px; }
+
+.card112 { position: absolute; inset: 0; padding: 8px 8px 0; background: var(--page); }
+.card112 .tel-hang { cursor: pointer; }
+.card112 .tel-hang.ring { background: #2ea160; animation: ring 1s infinite; }
+.card112 .tel-hang.ring svg { color: #fff; transform: rotate(135deg); }
+@keyframes ring { 50% { background: #1f7a4a; } }
+.b-answer { display: block; margin-top: 6px; height: 24px; width: 100%; border: 0; background: #2ea160; color: #fff; font-weight: 700; border-radius: 2px; }
+.card112 .tel-state .tel-btns { margin-top: 8px; }
+.val-in { width: 100%; border: 0; border-bottom: 1px solid #d2d2d2; background: transparent; font: 16px var(--font); margin-top: 8px; outline: 0; }
+.timer { width: 108px; flex: none; margin-left: 8px; background: var(--dark) !important; color: #fff; display: grid; grid-template-columns: 1fr 1fr; align-content: center; justify-items: center; }
+.timer b { grid-column: 1 / 3; font-size: 36px; line-height: 38px; font-weight: 700; letter-spacing: 1px; }
+.timer span { font-size: 9px; }
+.timer.red { background: #ff0000 !important; }
+
+.cv112 { display: grid; grid-template-columns: minmax(0, 860fr) minmax(0, 1032fr); gap: 8px; margin-top: 9px; height: calc(100% - 64px - 9px - 72px); }
+.cv112 .left, .cv112 .right { display: flex; flex-direction: column; gap: 8px; min-height: 0; }
+.ul { border: 0; border-bottom: 1px solid #d2d2d2; background: transparent; font: 16px var(--font); color: var(--ink); outline: 0; height: 30px; padding: 0 2px; }
+.ul:focus { border-bottom-color: var(--blue); }
+select.ul { cursor: pointer; }
+.caller-row { display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px; padding: 8px 10px; }
+.addr { padding: 8px 10px 10px; }
+.addr-head { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #1f1f1f; }
+.addr-head .ico { width: 15px; height: 15px; }
+.addr-line { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #d2d2d2; min-height: 28px; font-size: 14px; }
+.addr-line .x { border: 0; background: transparent; width: 24px; height: 24px; padding: 3px; }
+.addr-line .x svg { width: 100%; height: 100%; display: block; }
+.addr-grid { display: grid; gap: 12px; margin-top: 8px; }
+.addr-grid.g3 { grid-template-columns: 1fr 1fr 1fr; }
+.addr-grid.g5 { grid-template-columns: repeat(5, 1fr); }
+.addr label, .addr-desc { display: flex; flex-direction: column; font-size: 12px; color: #1f1f1f; }
+.addr-desc { margin-top: 8px; }
+.desc { flex: 1; min-height: 120px; display: flex; flex-direction: column; padding: 8px 10px; }
+.desc label { font-size: 12px; }
+.desc textarea { flex: 1; resize: none; border: 0; border-bottom: 1px solid #d2d2d2; background: transparent; font: 15px/20px var(--font); outline: 0; margin-top: 6px; }
+.desc-foot { display: flex; justify-content: space-between; font-size: 11px; color: #555; margin-top: 4px; }
+.first100 { color: #9a5b00; }
+
+.flags-row { display: flex; gap: 8px; }
+.flags { display: flex; align-items: center; gap: 6px; padding: 8px; }
+.victims { display: flex; align-items: center; gap: 4px; border: 1px solid #aeb1b3; background: #fff; padding: 2px 4px 2px 10px; height: 44px; font-weight: 700; font-size: 13px; }
+.victims button, .tgl, .qbtn { border: 1px solid #aeb1b3; background: #fff; color: #2c2f32; font: 700 13px var(--font); cursor: pointer; }
+.victims button { height: 32px; padding: 0 10px; }
+.tgl { height: 44px; padding: 0 12px; line-height: 15px; }
+.victims button.on, .tgl.on, .qbtn.on { background: var(--blue); border-color: var(--blue); color: #fff; }
+.alarms { display: flex; align-items: center; gap: 6px; padding: 8px; }
+.alarm { height: 44px; padding: 0 14px; border: 1px solid var(--orange); background: #efefef; color: var(--orange); font: 700 13px var(--font); cursor: pointer; }
+.alarm:disabled { opacity: .45; cursor: default; }
+
+.what { padding: 8px 12px 12px; }
+.what label { font-size: 12px; color: #555; }
+.what-line { position: relative; }
+.what-line input { width: 100%; border: 0; border-bottom: 1px solid #d2d2d2; background: transparent; font: 20px var(--font); height: 34px; outline: 0; }
+.suggest { position: absolute; left: 0; right: 0; top: 100%; z-index: 5; background: #fff; box-shadow: 0 4px 14px rgba(0,0,0,.25); max-height: 320px; overflow: auto; }
+.suggest div { padding: 6px 10px; font-size: 13px; cursor: pointer; border-bottom: 1px solid #eee; }
+.suggest div:hover, .suggest div.hot { background: #e8f2fa; }
+.suggest small { color: #777; margin-left: 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 10px 14px; margin-top: 12px; }
+.chips button { height: 30px; padding: 0 12px; border: 1px solid #aeb1b3; background: #efefef; font: 700 13px var(--font); color: #2c2f32; cursor: pointer; }
+.chips button.kind-service { color: #6a6f73; }
+
+.qcard { background: #fff; display: flex; flex-direction: column; min-height: 0; flex: 1; overflow: hidden; }
+.qtabs { display: flex; align-items: center; justify-content: space-between; background: #efefef; padding: 6px 8px; }
+.qtab { border: 1px solid #bcbfc0; padding: 4px 12px; font-size: 13px; background: #efefef; }
+.qreset { border: 0; background: transparent; color: var(--blue); font-size: 12px; cursor: pointer; }
+.qhead { background: var(--grpbar); color: #fefefe; font-weight: 700; font-size: 13px; padding: 6px 11px; }
+.qbody { overflow: auto; padding: 6px 10px 10px; flex: 1; }
+.qrow { display: grid; grid-template-columns: 250px 1fr; gap: 10px; padding: 7px 0; border-bottom: 1px solid #f1f1f1; }
+.qrow > span { color: #757575; font-size: 13px; padding-top: 6px; }
+.qopts { display: flex; flex-wrap: wrap; gap: 6px 8px; }
+.qbtn { min-height: 30px; padding: 3px 12px; text-align: left; }
+.qresult { padding: 6px 12px; border-top: 1px solid #e5e5e5; font-size: 13px; background: #f7f9fa; }
+.qresult b { color: var(--blue); }
+
+.talk { background: #f7f3e6; border-left: 3px solid #f2b233; padding: 6px 10px 8px; display: flex; flex-direction: column; min-height: 150px; max-height: 260px; }
+.talk h4 { margin: 0 0 4px; font-size: 11px; color: #7a5a10; text-transform: uppercase; letter-spacing: .04em; }
+.transcript { flex: 1; overflow: auto; font-size: 13px; line-height: 18px; }
+.transcript .line { margin: 2px 0; }
+.transcript .who { font-weight: 700; margin-right: 6px; }
+.transcript .op .who { color: #155a8a; }
+.transcript .cl .who { color: #9a5b00; }
+.transcript .play { border: 0; background: transparent; width: 18px; height: 18px; padding: 1px; vertical-align: middle; color: #9a5b00; cursor: pointer; }
+.asks { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.asks button { height: 24px; padding: 0 8px; font-size: 12px; border: 1px solid #d9c98f; background: #fff; border-radius: 2px; cursor: pointer; }
+.asks button:disabled { opacity: .4; cursor: default; }
+.ask-form { display: flex; gap: 6px; margin-top: 4px; }
+/* микрофон оператора (узел 9) */
+.mic-row { display: flex; align-items: center; gap: 8px; margin-top: 4px; min-height: 24px; }
+.mic { height: 24px; padding: 0 10px; font-size: 12px; border: 1px solid #d9c98f; background: #fff; border-radius: 2px; cursor: pointer; white-space: nowrap; }
+.mic.on { background: #2e7d32; border-color: #2e7d32; color: #fff; }
+.mic:disabled { opacity: .45; cursor: default; }
+.mic-level { width: 56px; height: 6px; background: #e8dfc2; border-radius: 3px; overflow: hidden; flex: none; }
+.mic-level i { display: block; height: 100%; width: 0; background: #2e7d32; transition: width .08s linear; }
+.mic-note { font-size: 12px; color: #7a6a3a; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.mic-note.warn { color: #b3261e; }
+.line.voice .who::after { content: " 🎤"; font-size: 10px; }
+.ask-form input { flex: 1; height: 26px; border: 1px solid #d9c98f; padding: 0 6px; font: 13px var(--font); }
+.ask-form button { height: 26px; border: 1px solid #d9c98f; background: #fff; font-size: 12px; }
+
+.svc112 { position: absolute; left: 0; right: 0; bottom: 0; height: 72px; background: var(--orange); display: flex; align-items: center; gap: 8px; padding: 0 8px; }
+.svc112 .svc-label { color: #fff; font-size: 14px; position: static; }
+.svc-list { display: flex; height: 100%; overflow-x: auto; }
+.chip112 { position: relative; width: 116px; height: 100%; flex: none; margin-left: 1px; box-shadow: -1px 0 0 #f7b9a2; color: #fff; text-align: center; background: var(--orange); }
+.chip112 .nm { position: absolute; left: 4px; right: 4px; top: 30px; font-weight: 700; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-bottom: 5px; }
+.chip112.main .nm { text-decoration: underline; text-underline-offset: 4px; }
+.chip112.manual { background: var(--manual); }
+.chip112 svg { position: absolute; top: 8px; width: 14px; height: 14px; }
+.chip112 .ph { left: 10px; }
+.chip112 .rm { right: 8px; cursor: pointer; }
+.sq { width: 44px; height: 44px; border: 1px solid #fff; background: transparent; color: #fff; padding: 9px; flex: none; }
+.sq svg { width: 100%; height: 100%; display: block; }
+.svc-right { margin-left: auto; display: flex; gap: 6px; }
+.save { height: 44px; padding: 0 22px; border: 1px solid #fff; background: transparent; color: #fff; font: 700 22px var(--font); cursor: pointer; }
+.save:disabled { opacity: .5; cursor: default; }
+.svc-empty { color: #ffe3d6; font-size: 13px; align-self: center; margin-left: 8px; }
+
+.res-gold { background: #f1f6fa; border-left: 3px solid var(--blue); padding: 8px 12px; margin: 10px 0; font-size: 13px; line-height: 19px; }
+.svc-pick { max-height: 360px; overflow: auto; border: 1px solid #dde2e5; margin-top: 8px; }
+.svc-pick div { padding: 6px 10px; font-size: 13px; border-bottom: 1px solid #eef0f2; cursor: pointer; }
+.svc-pick div:hover { background: #e8f2fa; }
+.svc-pick small { color: #777; }

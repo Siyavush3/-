@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Система 112 · Тренажёр ДДС</title>
+<link rel="stylesheet" href="css/arm.css">
+</head>
+<body>
+<!-- Значки нарисованы для тренажёра; по смыслу и месту повторяют значки АРМ-112 (UI-SPEC.md §13, §18, §27). -->
+<svg class="sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.3 1z"/></symbol>
+  <symbol id="i-hangup" viewBox="0 0 24 24"><path fill="currentColor" d="M12 9c-1.6 0-3.2.3-4.6.7v3.1c0 .4-.2.7-.6.9-1 .5-1.9 1.1-2.7 1.9-.2.2-.4.3-.7.3-.3 0-.5-.1-.7-.3L.3 13.1a1 1 0 0 1 0-1.4A16.9 16.9 0 0 1 12 7c4.5 0 8.7 1.8 11.7 4.7a1 1 0 0 1 0 1.4l-2.5 2.5c-.2.2-.4.3-.7.3-.3 0-.5-.1-.7-.3-.8-.7-1.7-1.4-2.7-1.9-.3-.2-.6-.5-.6-.9V9.7C15.2 9.3 13.6 9 12 9z"/></symbol>
+  <symbol id="i-sms" viewBox="0 0 24 24"><path fill="currentColor" d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM9 11H7V9h2zm4 0h-2V9h2zm4 0h-2V9h2z"/></symbol>
+  <symbol id="i-msg-alert" viewBox="0 0 24 24"><path fill="currentColor" d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm-7 12h-2v-2h2zm0-4h-2V5h2z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="14.5" cy="9.5" r="6" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M10.2 13.8 3 21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
+  <symbol id="i-chev-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4"/></symbol>
+  <symbol id="i-chev-up" viewBox="0 0 24 24"><path d="m6 15 6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.4"/></symbol>
+  <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 4v15m-6-6 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-bookmark" viewBox="0 0 24 24"><path fill="currentColor" d="M6 0h12v22l-6-5-6 5z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path fill="currentColor" d="m15 2 7 7-2 1-5 5 1 5-2 2-4.5-4.5L4 23l-1-1 4.5-5.5L3 12l2-2 5 1 5-5z"/></symbol>
+  <symbol id="i-timer" viewBox="0 0 24 24"><circle cx="12" cy="13.5" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 13.5V9M9 2h6" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-clip" viewBox="0 0 24 24"><path fill="currentColor" d="M19 3h-4.2A3 3 0 0 0 12 1a3 3 0 0 0-2.8 2H5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm2 15H7v-2h7zm3-4H7v-2h10zm0-4H7V8h10z"/></symbol>
+  <symbol id="i-bell-off" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22a2 2 0 0 0 2-2h-4a2 2 0 0 0 2 2zm6-6v-5c0-3-1.6-5.6-4.5-6.3V4a1.5 1.5 0 0 0-3 0v.7C7.6 5.4 6 8 6 11v5l-2 2v1h16v-1z"/><path d="M3 3l18 18" stroke="currentColor" stroke-width="2.4"/><path d="M4.2 2.2l18 18" stroke="#2f353a" stroke-width="1.2"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24"><path fill="currentColor" d="M3 17.3V21h3.7L17.8 9.9l-3.7-3.7zM20.7 7a1 1 0 0 0 0-1.4l-2.3-2.3a1 1 0 0 0-1.4 0l-1.8 1.8 3.7 3.7z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-expand" viewBox="0 0 24 24"><path d="m8 7 4-4 4 4M8 17l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path fill="currentColor" d="M8 1v12h3v10l7-13h-4l4-9z"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24"><path fill="currentColor" d="M1 21h22L12 2zm12-3h-2v-2h2zm0-4h-2v-4h2z"/></symbol>
+  <symbol id="i-map-off" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/><path d="M3 3l18 18" stroke="currentColor" stroke-width="2.4"/><path d="M4.4 2.1l18 18" stroke="#efefef" stroke-width="1.4"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><path fill="currentColor" d="M21 3H3a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h7v2H8v2h8v-2h-2v-2h7a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 13H3V5h18z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="3"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4M4.6 4.6l2.8 2.8M16.6 16.6l2.8 2.8M4.6 19.4l2.8-2.8M16.6 7.4l2.8-2.8" stroke="currentColor" stroke-width="3"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9.3 9.4a2.8 2.8 0 1 1 3.9 2.5c-.8.4-1.2 1-1.2 1.9v.6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="17.4" r="1.3" fill="currentColor"/></symbol>
+  <symbol id="i-run" viewBox="0 0 24 24"><circle cx="14" cy="3.5" r="2" fill="currentColor"/><path d="m6 22 3.5-7 3 2.5V22M9.5 15 11 9l-4 2-1.5 3M11 9l3 3 4 1" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-2h2zm0-4h-2V7h2z"/></symbol>
+</svg>
+
+<!-- Полоса тренажёра: её нет в боевом АРМ, поэтому она нарочно выглядит иначе -->
+<div class="tr" id="tr">
+  <span class="tr-brand">Тренажёр ДДС</span>
+  <span class="tr-item" id="tr-lesson">Выбор занятия</span>
+  <span class="tr-item" id="tr-role"></span>
+  <span class="tr-conn" id="tr-conn" data-state="offline">нет связи</span>
+  <span class="tr-item" id="tr-time"></span>
+  <span class="tr-spacer"></span>
+  <button class="tr-btn" id="tr-sound" title="Голос заявителя и доклады бригады">Звук: вкл</button>
+  <button class="tr-btn" id="tr-ref" hidden>Справка службы</button>
+  <button class="tr-btn" id="tr-calls" hidden>Вызовы бригад <b id="tr-calls-n">0</b></button>
+  <button class="tr-btn" id="tr-result" hidden>Итог занятия</button>
+  <button class="tr-btn" id="tr-finish" hidden>Завершить задание</button>
+  <button class="tr-btn" id="tr-cab">Кабинет</button>
+  <span class="tr-user" id="tr-user"></span>
+  <button class="tr-btn" id="tr-exit">Выйти</button>
+</div>
+
+<main id="main">
+  <section id="lobby" class="lobby" hidden>
+    <div class="lobby-box">
+      <h1>Занятия</h1>
+      <p class="lobby-hint">Выберите занятие, которое открыл преподаватель. Роль назначит преподаватель.</p>
+      <div id="lobby-list" class="lobby-list"></div>
+      <p class="lobby-err" id="lobby-err"></p>
+    </div>
+  </section>
+
+  <section id="feed" class="feed" hidden>
+    <header class="feed-top">
+      <div class="search">
+        <div class="search-line">
+          <input id="search" type="text" placeholder="Поиск происшествий" autocomplete="off" spellcheck="false">
+          <svg class="search-ico"><use href="#i-search"/></svg>
+        </div>
+        <div class="search-sub">
+          <span class="search-adv">расширенный по параметрам <svg class="ico-s"><use href="#i-chev-down"/></svg></span>
+          <button class="btn-reset" id="search-reset" type="button">сбросить</button>
+        </div>
+      </div>
+      <div class="clockbox">
+        <div class="clock-left">
+          <div class="clock-date" id="clock-date"></div>
+          <div class="clock-id">
+            <span id="clock-id"></span>
+            <svg class="ico-c"><use href="#i-monitor"/></svg>
+            <svg class="ico-c"><use href="#i-gear"/></svg>
+            <button class="ico-btn" id="clock-help" type="button" title="Справка службы"><svg class="ico-c"><use href="#i-help"/></svg></button>
+            <button class="ico-btn" id="clock-exit" type="button" title="Выйти"><svg class="ico-c"><use href="#i-run"/></svg></button>
+          </div>
+        </div>
+        <div class="clock-time"><span id="clock-hm">--:--</span><sup id="clock-ss">:--</sup></div>
+      </div>
+    </header>
+    <section class="list">
+      <div class="list-head">
+        <h2 class="list-title">Список происшествий <svg class="ico-t"><use href="#i-chev-up"/></svg></h2>
+        <div class="list-tools">
+          <button class="notif" id="notif" type="button"><svg class="ico-n"><use href="#i-info"/></svg>уведомления <b class="notif-n" id="notif-n" hidden>0</b></button>
+          <div class="filter">выберите что показать <span class="caret">&#9652;</span></div>
+        </div>
+      </div>
+      <div class="grid cols">
+        <span></span><span>Связи</span><span></span><span>ЧС</span><span></span>
+        <span>Опер.</span><span>АРМ</span><span>Номер</span>
+        <span>Дата <svg class="ico-a"><use href="#i-arrow-down"/></svg></span><span>Время</span>
+        <span class="l">Тип происшествия</span><span>Постр.</span><span class="l">Адрес</span>
+        <span class="l">Статус службы</span><span></span>
+      </div>
+      <div id="rows"></div>
+      <div class="pager" id="pager"></div>
+      <div class="feed-wait" id="feed-wait" hidden></div>
+    </section>
+  </section>
+
+  <section id="card" class="cardv" hidden></section>
+</main>
+
+<div class="dim" id="dim" hidden></div>
+<div class="sform" id="sform" hidden>
+  <div class="sel" id="sel" tabindex="0" role="listbox" aria-label="Статус">
+    <span class="sel-val" id="sel-val">Статус</span><span class="sel-caret">&#9652;</span>
+    <div class="sel-list" id="sel-list" hidden></div>
+  </div>
+  <input class="sf-in sf-order" id="sf-order" type="text" placeholder="Номер наряда" maxlength="40" autocomplete="off">
+  <input class="sf-in sf-comment" id="sf-comment" type="text" placeholder="Комментарий" maxlength="1000" autocomplete="off">
+  <button class="sf-btn" id="sf-ok" type="button" title="Сохранить статус (Enter)"><svg><use href="#i-check"/></svg></button>
+  <button class="sf-btn" id="sf-cancel" type="button" title="Отменить (Esc)"><svg><use href="#i-close"/></svg></button>
+</div>
+
+<div class="calls" id="calls"></div>
+<div class="toast" id="toast" hidden></div>
+<div class="modal" id="modal" hidden><div class="modal-box" id="modal-box"></div></div>
+
+<script src="js/api.js"></script>
+<script src="js/voice.js"></script>
+<script src="js/arm.js"></script>
+</body>
+</html>

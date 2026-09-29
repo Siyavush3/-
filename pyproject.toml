@@ -1,0 +1,10 @@
+[project]
+name = "arm112-trainer"
+version = "0.1.0"
+description = "Тренажёр оператора ДДС (АРМ-112) — учебный комплекс в изолированном контуре"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+pythonpath = ["pycore", "server", "tools"]
+testpaths = ["tests"]
+addopts = "-ra"

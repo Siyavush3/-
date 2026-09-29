@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Система 112 · Тренажёр · Оператор 112</title>
+<link rel="stylesheet" href="css/arm.css">
+<link rel="stylesheet" href="css/op112.css">
+</head>
+<body class="op112">
+<svg class="sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.3 1z"/></symbol>
+  <symbol id="i-hangup" viewBox="0 0 24 24"><path fill="currentColor" d="M12 9c-1.6 0-3.2.3-4.6.7v3.1c0 .4-.2.7-.6.9-1 .5-1.9 1.1-2.7 1.9-.2.2-.4.3-.7.3-.3 0-.5-.1-.7-.3L.3 13.1a1 1 0 0 1 0-1.4A16.9 16.9 0 0 1 12 7c4.5 0 8.7 1.8 11.7 4.7a1 1 0 0 1 0 1.4l-2.5 2.5c-.2.2-.4.3-.7.3-.3 0-.5-.1-.7-.3-.8-.7-1.7-1.4-2.7-1.9-.3-.2-.6-.5-.6-.9V9.7C15.2 9.3 13.6 9 12 9z"/></symbol>
+  <symbol id="i-sms" viewBox="0 0 24 24"><path fill="currentColor" d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM9 11H7V9h2zm4 0h-2V9h2zm4 0h-2V9h2z"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="2.2"/></symbol>
+  <symbol id="i-expand" viewBox="0 0 24 24"><path d="m8 7 4-4 4 4M8 17l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></symbol>
+  <symbol id="i-speaker" viewBox="0 0 24 24"><path fill="currentColor" d="M3 9v6h4l5 5V4L7 9zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4z"/></symbol>
+</svg>
+
+<div class="tr" id="tr">
+  <span class="tr-brand">Тренажёр · Оператор 112</span>
+  <span class="tr-item" id="tr-lesson">Подключение…</span>
+  <span class="tr-conn" id="tr-conn" data-state="offline">нет связи</span>
+  <span class="tr-item" id="tr-progress"></span>
+  <span class="tr-item" id="tr-time"></span>
+  <span class="tr-spacer"></span>
+  <button class="tr-btn" id="tr-sound" title="Голос заявителя и доклады бригады">Звук: вкл</button>
+  <button class="tr-btn" id="tr-cards" hidden>Мои карточки</button>
+  <button class="tr-btn" id="tr-result" hidden>Итог занятия</button>
+  <button class="tr-btn" id="tr-finish" hidden>Завершить задание</button>
+  <button class="tr-btn" id="tr-cab">Кабинет</button>
+  <span class="tr-user" id="tr-user"></span>
+  <button class="tr-btn" id="tr-exit">Выйти</button>
+</div>
+
+<main id="main">
+  <section class="wait" id="wait"><div class="wait-box" id="wait-text">Подключение к занятию…</div></section>
+
+  <section class="card112" id="card" hidden>
+    <div class="tel">
+      <div class="tel-hang" id="hang" title="Принять вызов"><svg><use href="#i-hangup"/></svg></div>
+      <div class="tel-state">
+        <div class="st" id="line-state">Не подключен</div>
+        <div class="tel-btns"><button type="button" disabled>записи звонков</button><button type="button" disabled>список SMS</button></div>
+        <button type="button" class="b-answer" id="answer" hidden>Принять вызов</button>
+      </div>
+      <div class="tel-ico"><svg><use href="#i-phone"/></svg><svg><use href="#i-sms"/></svg></div>
+      <div class="tel-num"><label>АОН</label><div class="val" id="aon">+7 (&nbsp;&nbsp;&nbsp;) &nbsp;&nbsp;- &nbsp;-</div></div>
+      <div class="tel-ico"><svg><use href="#i-phone"/></svg><svg><use href="#i-sms"/></svg></div>
+      <div class="tel-num"><label>предоставленный</label><input class="val-in" id="phone-given" placeholder="+7 (   )    -  -"></div>
+      <div class="tel-ico"><svg><use href="#i-phone"/></svg><svg><use href="#i-sms"/></svg></div>
+      <div class="tel-num"><label>телефон на место</label><input class="val-in" id="phone-site" placeholder="+7 (   )    -  -"></div>
+      <div class="tel-id"><b id="card-title">Происшествие —</b><div id="card-saved">новая карточка</div><div id="card-op"></div></div>
+      <div class="timer" id="timer"><b id="timer-v">00:00</b><span>минут</span><span>секунд</span></div>
+    </div>
+
+    <div class="cv112">
+      <div class="left">
+        <div class="blk caller-row">
+          <input class="ul" id="caller-name" placeholder="Фамилия и имя заявителя" maxlength="80">
+          <select class="ul" id="caller-status">
+            <option value="">выберите статус</option>
+            <option>очевидец</option><option>пострадавший</option><option>родственник</option>
+            <option>знакомый</option><option>ребенок</option><option>участник</option>
+          </select>
+        </div>
+        <div class="blk addr">
+          <div class="addr-head"><span>Адрес:</span><svg class="ico"><use href="#i-map"/></svg></div>
+          <div class="addr-line"><span id="addr-line">Москва</span><button type="button" class="x" id="addr-clear" title="очистить адрес"><svg><use href="#i-close"/></svg></button></div>
+          <div class="addr-grid g3">
+            <label>Страна:<input class="ul" value="Россия" disabled></label>
+            <label>Субъект:<select class="ul" id="a-subject"><option>Москва</option><option>Московская область</option><option>другой регион</option></select></label>
+            <label>Населенный пункт:<input class="ul" id="a-locality"></label>
+          </div>
+          <div class="addr-grid g3">
+            <label>Улица:<input class="ul" id="a-street"></label>
+            <label>Дом/Вл:<input class="ul" id="a-house"></label>
+            <label>Корпус:<input class="ul" id="a-korpus"></label>
+          </div>
+          <div class="addr-grid g5">
+            <label>Стр/соор:<input class="ul" id="a-stroenie"></label>
+            <label>Квартира/офис:<input class="ul" id="a-flat"></label>
+            <label>Подъезд:<input class="ul" id="a-entrance"></label>
+            <label>Этаж:<input class="ul" id="a-floor"></label>
+            <label>Код:<input class="ul" id="a-code"></label>
+          </div>
+          <label class="addr-desc">Описательный адрес:<input class="ul" id="a-descriptive"></label>
+        </div>
+        <div class="blk desc">
+          <label>Описание со слов заявителя</label>
+          <textarea id="description" maxlength="1999" placeholder="введите"></textarea>
+          <div class="desc-foot"><span class="first100" id="first100"></span><span id="desc-count">0 / 1999</span></div>
+        </div>
+      </div>
+
+      <div class="right">
+        <div class="flags-row">
+          <div class="blk flags">
+            <div class="victims" id="victims">
+              <span>Пострадавшие</span>
+              <button type="button" data-victims="1">есть</button><button type="button" data-victims="0">нет</button>
+            </div>
+            <button type="button" class="tgl" data-flag="ПП_НЕ_НА_МЕСТЕ">Нет на месте/<br>Отказ от скорой</button>
+            <button type="button" class="tgl" data-flag="НД">Нет доступа/<br>Заблокированные</button>
+          </div>
+          <div class="blk alarms">
+            <button type="button" class="alarm" data-noncontact="нет контакта">нет контакта</button>
+            <button type="button" class="alarm" data-noncontact="срыв звонка">срыв звонка</button>
+          </div>
+        </div>
+
+        <div class="blk what" id="what">
+          <label>Введите тип происшествия</label>
+          <div class="what-line">
+            <input id="what-input" placeholder="что случилось?" autocomplete="off">
+            <div class="suggest" id="suggest" hidden></div>
+          </div>
+          <div class="chips" id="chips"></div>
+        </div>
+
+        <div class="qcard" id="qcard" hidden>
+          <div class="qtabs"><span class="qtab" id="qtab"></span><button type="button" class="qreset" id="qreset">сменить тип</button></div>
+          <div class="qhead"><span id="qtitle"></span></div>
+          <div class="qbody" id="qbody"></div>
+          <div class="qresult" id="qresult"></div>
+        </div>
+
+        <div class="talk" id="talk">
+          <h4>Тренажёр · разговор с заявителем</h4>
+          <div class="transcript" id="transcript"></div>
+          <div class="mic-row">
+            <button type="button" class="mic" id="mic" title="Задавать вопросы голосом (Alt+M)">Микрофон: выкл</button>
+            <span class="mic-level" id="mic-level" hidden><i></i></span>
+            <span class="mic-note" id="mic-note"></span>
+          </div>
+          <div class="asks" id="asks">
+            <button type="button" data-intent="details">Что случилось?</button>
+            <button type="button" data-intent="address">Адрес?</button>
+            <button type="button" data-intent="address_clarified">Уточните адрес</button>
+            <button type="button" data-intent="name">Как вас зовут?</button>
+            <button type="button" data-intent="status">Кем приходитесь?</button>
+            <button type="button" data-intent="victims">Есть пострадавшие?</button>
+            <button type="button" data-intent="danger">Угроза людям?</button>
+            <button type="button" data-intent="gas">Газ?</button>
+            <button type="button" data-intent="access">Доступ?</button>
+            <button type="button" data-intent="phone">Телефон?</button>
+          </div>
+          <form class="ask-form" id="ask-form"><input id="ask-text" placeholder="Свой вопрос заявителю…" maxlength="300"><button type="submit">Спросить</button></form>
+        </div>
+      </div>
+    </div>
+
+    <div class="svc112">
+      <span class="svc-label">Службы:</span>
+      <div class="svc-list" id="svc-list"></div>
+      <button type="button" class="sq" id="svc-add" title="Добавить службу"><svg><use href="#i-plus"/></svg></button>
+      <div class="svc-right">
+        <button type="button" class="save" id="save">сохранить</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="modal" id="modal" hidden><div class="modal-box" id="modal-box"></div></div>
+<div class="toast" id="toast" hidden></div>
+
+<script src="js/api.js"></script>
+<script src="js/voice.js"></script>
+<script src="js/mic.js"></script>
+<script src="js/op112.js"></script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Тренажёр ДДС · Администратор</title>
+<link rel="stylesheet" href="css/teacher.css">
+<link rel="stylesheet" href="css/insight.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<header class="top">
+  <span class="brand">Тренажёр ДДС</span>
+  <span class="who">Администратор: <b id="who"></b></span>
+  <nav class="tabs" id="tabs">
+    <button type="button" data-tab="status" class="on">Состояние</button>
+    <button type="button" data-tab="users">Учётные записи</button>
+    <button type="button" data-tab="backups">Резервные копии</button>
+    <button type="button" data-tab="logs">Журналы</button>
+    <button type="button" data-tab="audit">Журнал аудита</button>
+    <button type="button" data-tab="stats">Статистика</button>
+    <button type="button" data-tab="settings">Настройки</button>
+  </nav>
+  <span class="spacer"></span>
+  <button type="button" class="ghost" id="exit">Выйти</button>
+</header>
+
+<main class="page">
+  <section id="tab-status">
+    <div class="health" id="health"></div>
+    <div class="comps" id="comps"></div>
+    <section class="panel wide"><h2>Нагрузка <span class="conn" id="load-note"></span></h2><div class="kpis" id="load"></div>
+      <div class="sparks" id="sparks"></div></section>
+    <section class="panel wide"><h2>Сервисы</h2><div id="services"></div><p class="err" id="svc-err"></p></section>
+  </section>
+
+  <section id="tab-backups" hidden>
+    <section class="panel">
+      <h2>Резервное копирование</h2>
+      <div id="bk-info" class="note"></div>
+      <div class="row-form"><button type="button" class="primary" id="bk-now">Сделать копию сейчас</button><span class="note" id="bk-msg"></span></div>
+      <p class="note">Восстановление — только при остановленном сервере: <code>python server/manage.py restore &lt;файл копии&gt;</code>.
+        Текущая база перед восстановлением сохраняется рядом.</p>
+      <p class="err" id="bk-err"></p>
+    </section>
+    <section class="panel wide">
+      <table class="grid"><thead><tr><th>Копия</th><th>Создана</th><th>Причина</th><th class="n">Размер</th><th class="n">Файлов</th><th></th></tr></thead>
+        <tbody id="bk-list"></tbody></table>
+    </section>
+  </section>
+
+  <section id="tab-logs" hidden>
+    <section class="panel">
+      <h2>Системный журнал</h2>
+      <form class="row-form" id="log-form">
+        <label class="fld">Уровень<select id="log-level"><option value="">все</option><option value="INFO">INFO и выше</option>
+          <option value="WARNING">WARNING и выше</option><option value="ERROR">только ошибки</option></select></label>
+        <label class="fld">Поиск<input id="log-q" placeholder="адрес, событие, текст"></label>
+        <button type="submit">Показать</button>
+      </form>
+    </section>
+    <section class="panel wide"><table class="grid logs"><thead><tr><th>Время</th><th>Уровень</th><th>Событие</th><th>Подробности</th></tr></thead>
+      <tbody id="log-list"></tbody></table></section>
+    <section class="panel wide"><h2>Сбои и ошибки <span class="spacer"></span><button type="button" id="err-csv">Отчёт об ошибках (CSV)</button></h2>
+      <table class="grid logs"><thead><tr><th>Время</th><th>Источник</th><th>Сообщение</th></tr></thead><tbody id="err-list"></tbody></table></section>
+  </section>
+
+  <section id="tab-stats" hidden>
+    <section class="panel wide"><h2>Итоги</h2><div class="kpis" id="st-totals"></div></section>
+    <div class="st-grid" id="st-charts"></div>
+    <section class="panel wide"><h2>Самые частые запросы с момента запуска</h2><table class="grid"><tbody id="st-routes"></tbody></table></section>
+  </section>
+
+  <section id="tab-settings" hidden>
+    <section class="panel wide"><h2>Параметры системы <span class="spacer"></span><button type="button" class="primary" id="set-save">Сохранить изменения</button></h2>
+      <p class="note">Изменения применяются сразу, без перезапуска, требуют пароля администратора и записываются в журнал аудита.</p>
+      <div id="set-form" class="set-form"></div><p class="err" id="set-err"></p><p class="note" id="set-msg"></p></section>
+    <div class="st-grid">
+      <section class="panel"><h2>Целостность программы</h2>
+        <p class="note">Файлы программы сверяются с эталоном, снятым при установке (<code>manage.py integrity --write</code>).</p>
+        <button type="button" id="int-check">Проверить целостность</button><div id="int-result" class="note"></div></section>
+      <section class="panel"><h2>Защита канала (TLS)</h2><div id="tls" class="note"></div></section>
+      <section class="panel"><h2>Пакетное обновление сценариев</h2>
+        <p class="note">Zip-архив с файлами <code>scenarios/*.json</code>. Каждый сценарий проверяется; перед установкой — резервная копия.</p>
+        <input type="file" id="upd-file" accept=".zip,application/zip"><button type="button" id="upd-go">Установить</button>
+        <div id="upd-result" class="note"></div></section>
+      <section class="panel"><h2>База данных</h2><div id="db-info" class="note"></div></section>
+    </div>
+  </section>
+
+  <section id="tab-users" hidden>
+    <section class="panel">
+      <h2>Новая учётная запись</h2>
+      <form class="row-form" id="create-form" autocomplete="off">
+        <label class="fld">Логин<input id="new-login" maxlength="40" required placeholder="например, ivanov"></label>
+        <label class="fld">Имя<input id="new-name" maxlength="80" required placeholder="Фамилия Имя"></label>
+        <label class="fld">Роль
+          <select id="new-role">
+            <option value="student">обучающийся</option>
+            <option value="teacher">преподаватель</option>
+            <option value="admin">администратор</option>
+          </select>
+        </label>
+        <button type="submit" class="primary">Создать</button>
+      </form>
+      <div class="secret" id="secret" hidden></div>
+      <p class="err" id="users-err"></p>
+    </section>
+    <section class="panel wide">
+      <h2>Учётные записи <span class="conn" id="users-count"></span></h2>
+      <table class="grid">
+        <thead><tr><th>Логин</th><th>Имя</th><th>Роль</th><th>Состояние</th><th>Последний вход</th><th></th></tr></thead>
+        <tbody id="users"></tbody>
+      </table>
+    </section>
+  </section>
+
+  <section id="tab-audit" hidden>
+    <section class="panel">
+      <h2>Журнал аудита</h2>
+      <form class="row-form" id="audit-form">
+        <label class="fld">Действие<input id="f-action" placeholder="login, user, lesson…"></label>
+        <label class="fld">Логин<input id="f-login" placeholder="логин"></label>
+        <button type="submit">Показать</button>
+        <button type="button" id="verify">Проверить целостность</button>
+        <span class="verify" id="verify-result"></span>
+      </form>
+      <p class="note">Каждая запись содержит хеш предыдущей: правку или удаление записи задним числом проверка укажет.
+        Записи не удаляются — срок хранения по ТЗ (не менее 6 месяцев) выполняется с запасом.</p>
+    </section>
+    <section class="panel wide">
+      <table class="grid audit">
+        <thead><tr><th>Время</th><th>Логин</th><th>Действие</th><th>Объект</th><th>Подробности</th><th>IP</th></tr></thead>
+        <tbody id="audit"></tbody>
+      </table>
+      <button type="button" id="audit-more" hidden>Показать ещё</button>
+    </section>
+  </section>
+</main>
+
+<div class="modal" id="confirm" hidden>
+  <form class="modal-box small" id="confirm-form">
+    <h2>Подтвердите действие</h2>
+    <p class="note">Для изменения учётных записей, настроек и сервисов нужен пароль администратора. Подтверждение действует 10 минут.</p>
+    <label class="fld">Пароль<input id="confirm-password" type="password" autocomplete="current-password"></label>
+    <p class="err" id="confirm-err"></p>
+    <div class="actions"><button type="button" id="confirm-cancel">Отмена</button><button type="submit" class="primary">Подтвердить</button></div>
+  </form>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/admin.js"></script>
+<script src="js/admin_ops.js"></script>
+</body>
+</html>

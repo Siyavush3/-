@@ -1,0 +1,6 @@
+# -*- coding: utf-8 -*-
+-r server.txt
+pytest==9.1.1
+httpx2==2.13.1   # HTTP-клиент для fastapi.testclient (httpx объявлен устаревшим в Starlette 1.x)
+openpyxl==3.1.5  # tools/build_classifier.py — чтение xlsx-классификатора
+python-docx==1.2.0  # tools/build_docs.py — сопроводительная документация .docx

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Тренажёр · Кабинет обучающегося</title>
+<link rel="stylesheet" href="css/teacher.css">
+<link rel="stylesheet" href="css/insight.css">
+<link rel="stylesheet" href="css/cabinet.css">
+</head>
+<body>
+<header class="top">
+  <span class="brand">Тренажёр ДДС</span>
+  <nav class="tabs" id="tabs">
+    <button type="button" class="on" data-view="tasks">Задания</button>
+    <button type="button" data-view="results">Мои результаты</button>
+    <button type="button" data-view="progress">Прогресс</button>
+    <button type="button" data-view="materials">Материалы</button>
+  </nav>
+  <span class="who">Обучающийся: <b id="who"></b></span>
+  <span class="spacer"></span>
+  <button type="button" class="ghost" id="exit">Выйти</button>
+</header>
+
+<div class="cab">
+  <div class="live" id="live" hidden>
+    <span id="live-text"></span>
+    <button type="button" class="primary" id="live-go">Перейти к занятиям</button>
+  </div>
+
+  <section class="view" id="view-tasks">
+    <h1>Задания</h1>
+    <p class="note">Задания назначает преподаватель вашей группы. Выполнение — на тренажёре, итог и разбор ошибок появятся в «Моих результатах».</p>
+    <div id="tasks" class="task-list"></div>
+    <p class="err" id="tasks-err"></p>
+  </section>
+
+  <section class="view" id="view-results" hidden>
+    <h1>Мои результаты</h1>
+    <div id="results"></div>
+  </section>
+
+  <section class="view" id="view-progress" hidden>
+    <h1>Прогресс</h1>
+    <div class="grid2">
+      <div class="panel"><h2>Баллы по занятиям и прогноз</h2><div id="chart"></div><div class="fc" id="forecast"></div></div>
+      <div class="panel"><h2>Рекомендации</h2><ul class="recs" id="recs"></ul><h2>От преподавателя</h2><ul class="recs" id="feedback"></ul></div>
+    </div>
+    <div class="panel wide"><h2>Мои ошибки по категориям</h2><div id="heat"></div></div>
+  </section>
+
+  <section class="view" id="view-materials" hidden>
+    <h1>Материалы</h1>
+    <p class="note">Инструкции и методические материалы от преподавателей.</p>
+    <div id="materials"></div>
+  </section>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/cabinet.js"></script>
+</body>
+</html>

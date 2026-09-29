@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Отчёт о занятии</title>
+<link rel="stylesheet" href="css/insight.css">
+<link rel="stylesheet" href="css/report.css">
+</head>
+<body>
+<div class="bar no-print">
+  <button type="button" id="back">← Назад</button>
+  <span class="spacer"></span>
+  <button type="button" id="csv" hidden>Скачать CSV</button>
+  <button type="button" id="xlsx" hidden>Скачать Excel</button>
+  <button type="button" class="primary" id="print">Печать / PDF</button>
+</div>
+<main class="sheet" id="sheet">
+  <p class="muted" id="status">Загрузка отчёта…</p>
+</main>
+<script src="js/api.js"></script>
+<script src="js/report.js"></script>
+</body>
+</html>

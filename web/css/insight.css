@@ -1,0 +1,37 @@
+/* Диаграммы, тепловая карта, инсайты — общие для преподавателя, кабинета и отчёта (узел 6). */
+.chart { width: 100%; max-width: 640px; height: auto; display: block; font-family: inherit; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12px; color: #5d6a72; margin: 4px 0 0; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { display: inline-block; }
+table.heat { border-collapse: collapse; font-size: 13px; margin-top: 6px; }
+.heat th, .heat td { border: 1px solid #fff; padding: 5px 8px; text-align: center; min-width: 38px; }
+.heat th { font-weight: 500; color: #5d6a72; background: #eef1f3; cursor: help; }
+.heat td:first-child, .heat th:first-child { text-align: left; min-width: 160px; background: #fff; color: #1d2327; }
+.heat td.n { color: #5d6a72; background: #fff; }
+.heat-key { display: flex; flex-wrap: wrap; gap: 2px 14px; font-size: 11px; color: #5d6a72; margin-top: 6px; }
+.heat-scale { font-size: 11px; color: #5d6a72; margin-top: 4px; display: flex; align-items: center; gap: 6px; }
+.heat-scale i { display: inline-block; width: 18px; height: 10px; border: 1px solid #dde3e7; }
+.insights { list-style: none; margin: 0; padding: 0; }
+.insights li { padding: 8px 12px; border-left: 4px solid #9fb0ba; background: #f7f9fa; margin-bottom: 6px; font-size: 13px; line-height: 19px; border-radius: 0 3px 3px 0; }
+.insights li.high { border-left-color: #c0392b; background: #fdf2f1; }
+.insights li.medium { border-left-color: #e0a030; background: #fff8ea; }
+.insights li.low { border-left-color: #1f7a4a; background: #eef8f2; }
+.recs { list-style: none; margin: 0; padding: 0; }
+.recs li { border: 1px solid #dde3e7; border-radius: 4px; padding: 10px 12px; margin-bottom: 8px; font-size: 13px; line-height: 19px; }
+.recs li b { display: block; margin-bottom: 2px; }
+.recs li .who { color: #5d6a72; font-size: 12px; }
+.recs li button { margin-top: 6px; }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+.kpi { background: #fff; border: 1px solid #dde3e7; border-radius: 4px; padding: 10px 12px; }
+.kpi b { display: block; font-size: 22px; font-weight: 500; }
+.kpi span { font-size: 12px; color: #5d6a72; }
+.pill { display: inline-block; border-radius: 10px; padding: 1px 9px; font-size: 12px; font-weight: 600; }
+.pill.ok { background: #e2f3e9; color: #1f7a4a; }
+.pill.no { background: #fdecea; color: #b3261e; }
+.pill.ex { background: #efe6f7; color: #6b2c91; }
+.stud { border-top: 1px solid #dde3e7; padding: 14px 0; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 18px; }
+.stud:first-child { border-top: 0; }
+.stud h3 { margin: 0 0 6px; font-size: 15px; }
+.stud .fc { font-size: 13px; line-height: 20px; }
+.fc .big { font-size: 18px; }
+@media (max-width: 1100px) { .stud { grid-template-columns: 1fr; } }
